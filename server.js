@@ -61,6 +61,8 @@ mongoose.connection.on('error', function(err) {
     console.error(err);
 });
 
+require('./controllers/passport.js');
+
 // Locates to Sign the Admin in
 app.post('/secure/signin', passport.authenticate('local-signin'),
     function(req, res) { return res.json(req.user); }

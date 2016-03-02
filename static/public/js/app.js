@@ -13,7 +13,7 @@ angular.module('Events', [])
                 password: $scope.password
             };
             
-            $http.post('/secure/signin', userInfo)
+            $http.post('/secure/signin', adminInfo)
             .then(function(response) {
                 console.log(response);
                 console.log("worked?");

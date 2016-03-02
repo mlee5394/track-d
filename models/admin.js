@@ -18,7 +18,7 @@ adminSchema.methods.generateHash = function(password) {
 
 // Compares Salts/Hashes given password
 adminSchema.methods.validPassword = function(password) {
-	return bcrypt.compareSync(password, this.local.password);
+	return bcrypt.compareSync(password, this.password);
 };
 
 var Admin = mongoose.model('User', adminSchema);
