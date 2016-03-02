@@ -1,0 +1,26 @@
+{
+  "name": "events-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "bluebird": "^3.3.3",
+    "body-parser": "^1.15.0",
+    "connect-redis": "^3.0.2",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "moment-timezone": "^0.5.0",
+    "mongodb": "^2.1.7",
+    "mongoose": "^4.4.5",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Michelle",
+  "license": "ISC"
+}
