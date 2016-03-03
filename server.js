@@ -149,19 +149,73 @@ app.get('/dashboard', function(req, res) {
     res.json(req.user);
 });
 
-// Grab All Events for approval
-app.get('/api/v1/eventslist/admin', function(req, res) {
+app.get('/api/v1/admin/approve/', function(req, res) {
+    Events.find(function(err, events) {
+        if (events.length == 0 || err) {
+            console.log("No approved events.");
+            res.status(400).json({ message: "No Approved Events."});
+        } else {
+            res.json(events);
+        }
+    })
+})
+
+// Grab All Events Awaiting Approval
+app.get('/api/v1/admin/approve/wait', function(req, res) {
     Events.find(function(err, events) {
         if (events.length == 0 || err) {
             console.log("No Current Events");
             res.status(400).json({ message: "No Current Events." });
         } else {
-            res.json(events);
+            var eventslist = [];
+            for (var i = 0; i < events.length; i++) {
+                if (!events[i].approved) {
+                    eventslist.push(events[i]);
+                }
+            }
+            if (eventslist.length == 0) {
+                res.status(401).json({ message: "No events to approve." });
+            } else {
+                res.json(eventslist);
+            }
         }
     });
 });
 
-app.delete('/api/v1/remove/:event_id', function(req, res) {
+app.get('/api/v1/admin/approve/approved', function(req, res) {
+    Events.find(function(err, events) {
+        if (events.length == 0 || err) {
+            console.log("No Current Events");
+            res.status(400).json({ message: "No Current Events." });
+        } else {
+            var eventslist = [];
+            for (var i = 0; i < events.length; i++) {
+                if (events[i].approved) {
+                    eventslist.push(events[i]);
+                }
+            }
+            if (eventslist.length == 0) {
+                res.status(401).json({ message: "No events have been approved." });
+            } else {
+                res.json(eventslist);
+            }
+        }
+    })
+})
+
+// Event has been approved.
+app.post('/api/v1/admin/approve/:event_id', function(req, res) {
+    Events.findById(req.params.event_id, function(err, event) {
+        event.approved = true;
+        event.save(function(err) {
+            if (err) { console.log(err); }
+        });
+        res.status(202).json({ message: "Event Approved." });
+    });
+});
+
+// Admin declined the approval. Remove from database.
+app.delete('/api/v1/admin/decline/:event_id', function(req, res) {
     Events.findById(req.params.event_id, function(err, event) {
         event.remove({ "_id": req.params.event_id});
         console.log("Successfully Removed the Event");

@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Track'd | Events Awaiting Approval</title>
+	<title>Track'd | Approved Events</title>
 	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -16,7 +16,7 @@
 	<link rel="icon" href="img/fav-logo.png">
 	<link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-app="Dashboard" ng-controller="EventApprovalController">
+<body ng-app="Dashboard" ng-controller="ApprovalController">
 	<nav>
 		<ul>
 			<li><a href="index.html"><img id="navlogo" src="img/logo1.png"></a></li>
@@ -32,9 +32,9 @@
 	</nav>
 	
 	<main>
-		<h1>Event Approval</h1>
+		<h1>Approved Events</h1>
 		
-		<h5 class="noevents">No Events to Approve.</h5>
+		<h5 class="noevents">:( No approved events.</h5>
 
 		<table class="table table-hover">
 			<thead>
@@ -44,8 +44,6 @@
 					<th>Begins/End</th>
 					<th>Location</th>
 					<th>Description</th>
-					<th>Approve</th>
-					<th>Decline</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,8 +53,6 @@
 					<td>{{ event.start | date:'EEE, MMM dd, y' }} <br /> {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}</td>
 					<td>{{ event.loc }}</td>
 					<td>{{ event.description }}</td>
-					<td><a class="cursorstyle btn btn-small btn-success" ng-click="approveEvent(event)"><i class="icon-thumbs-up"></i> Approve</a></td>
-					<td><a class="cursorstyle btn btn-danger btn-small" ng-click="removeEvent(event)"><i class="icon-trash icon-large"></i>  Decline</a></td>
 				</tr>
 			</tbody>
 		</table>
