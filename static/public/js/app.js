@@ -1,6 +1,22 @@
 function showNoEvent() {
-	$('.noevents').css('visibility', 'visible');
-	$('.table').css('visibility', 'hidden');
+	$('.noevents').css('display', 'block');
+	$('.table').css('display', 'none');
+}
+
+function exists() {
+	$('.exists').css('display', 'block');
+}
+
+function success() {
+	$('.alert-success').css('display', 'block');
+}
+
+function startMatch() {
+	$('.wrongstart').css('display', 'block');
+}
+
+function endMatch() {
+	$('.wrongend').css('display', 'block');
 }
 
 angular.module('Events', [])
@@ -15,9 +31,13 @@ angular.module('Events', [])
             
             $http.post('/secure/signin', adminInfo)
             .then(function(response) {
-                console.log(response);
-                console.log("worked?");
-            });
+				if (response.status == 200) {
+					window.location.href = '/dashboard.html'
+				}
+            })
+			.catch(function(err) {
+				$scope.user = true;
+			});
         }
     })
 	.controller('EventsController', function($scope, $http) {
@@ -35,19 +55,21 @@ angular.module('Events', [])
 				description: $scope.description
 			}
 			var today = new Date();
-			console.log(today);
-			console.log(event.start);
-			console.log(event.end);
 			if (Date.parse(today) > Date.parse(event.start)) {
 				console.log("Start date cannot happen before today's date");
-				alert("You made a mistake! You can't have an event that works in the past.");
+				startMatch();
 			} else if (Date.parse(event.start) > Date.parse(event.end)) {
 				console.log("You can't end an event before you start it!");
-				alert("You can't end an event before it starts!");
+				endMatch();
 			} else {
-				console.log(event);
-				$http.post('/newevent', event);
-				alert("Event posted!");
+				$http.post('/newevent', event).then(function(data) {
+					$scope.events = data.data;
+					success();
+				}).catch(function(reason) {
+					if (reason.status == '400') {
+						exists();
+					}
+				})
 			}
 
 		}
@@ -57,15 +79,9 @@ angular.module('Events', [])
 		
 		$http.get('/api/v1/eventslist').then(function(data) {
 			$scope.events = data.data;
-			// console.log($scope.events[0].start);
-			// var newstart = $scope.events[0].start;
-			
 		}).catch(function(reason) {
 			if (reason.status == '400') {
 				showNoEvent();
 			}
 		});
 	});
-	
-	// person who is logged in is admin,
-	// allowed to 

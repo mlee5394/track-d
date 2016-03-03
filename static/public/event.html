@@ -4,11 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Track'd</title>
+	<title>Track'd | Add an Event</title>
 	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
+	
+	<!-- jQuery library -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
 	<link rel="icon" href="img/fav-logo.png">
 	<link rel="stylesheet" href="css/main.css">
 </head>
@@ -18,77 +22,99 @@
 			<li><a href="index.html"><img id="navlogo" src="img/logo1.png"></a></li>
 			<li><a href="event.html">Post an Event</a></li>
 			<li><a href="about.html">About</a></li>
-			<li class="admins"><a href="signin.html">Admins Signin Here</a></li>
+			<li class="admins"><a class="btn btn-info" href="signin.html">Admins Sign In Here</a></li>
 		</ul>
 	</nav>
 	
 	<main ng-app="Events" ng-controller="EventsController">
+		
 		<h1>Add an Event</h1>
-		<form name="confirmForm" ng-submit="save()" novalidate>
-			<div class="form-group">
-				<label for="eventname">Event Name</label>
-				<input type="text" class="form-control" id="eventname" name="eventname" ng-model="eventname" placeholder="Name of your event" required />
-				<p class="validation-error" ng-if="confirmForm.eventname.$error.required && confirmForm.eventname.$touched">What is the name of your event?</p>
-			</div>
-			
-			<div class="form-group">
-				<label for="fblink">Facebook Export Link</label>
-				<input type="text" class="form-control" id="link" name="link" ng-model="link" placeholder="Paste your Facebook Export Link here." />
-			</div>
-			
-			<div class="form-group">
-				<label for="orgname">Organization Name</label>
-				<input type="text" class="form-control" id="orgname" name="orgname" ng-model="orgname" placeholder="Who is hosting this event?" required />
-				<p class="validation-error" ng-if="confirmForm.orgname.$error.required && confirmForm.orgname.$touched">Organization Name is Required.</p>
-			</div>
-			
-			<div class="form-inline">
+		<p class="center notice">Note: Please contact an administrator after posting an event. They will ultimately decide whether or not your event will be posted.</p>
+		
+		<div class="alert alert-warning exists">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Error!</strong> This event has already been requested or posted.
+		</div>
+
+		<div class="alert alert-success">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Success!</strong> This event has been submitted for review.
+		</div>
+	
+		<div class="alert alert-danger wrongstart">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Wait!</strong> Your start date cannot happen before today's date!
+		</div>
+		
+		<div class="alert alert-danger wrongend">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Wait!</strong> You can't end an event before it begins..
+		</div>
+		
+		<div class="block">
+			<form name="confirmForm" ng-submit="save()" novalidate>
+				<div class="form-group">
+					<label for="eventname">Event Name</label>
+					<input type="text" class="form-control" id="eventname" name="eventname" ng-model="eventname" placeholder="Name of your event" required />
+					<p class="validation-error" ng-if="confirmForm.eventname.$error.required && confirmForm.eventname.$touched">What is the name of your event?</p>
+				</div>
+				
+				<div class="form-group">
+					<label for="fblink">Facebook Export Link</label>
+					<input type="text" class="form-control" id="link" name="link" ng-model="link" placeholder="Paste your Facebook Export Link here." />
+				</div>
+				
+				<div class="form-group">
+					<label for="orgname">Organization Name</label>
+					<input type="text" class="form-control" id="orgname" name="orgname" ng-model="orgname" placeholder="Who is hosting this event?" required />
+					<p class="validation-error" ng-if="confirmForm.orgname.$error.required && confirmForm.orgname.$touched">Organization Name is Required.</p>
+				</div>
+				
 				<div class="form-group">
 					<label for="start">Start Date and Time:</label>
 					<input type="datetime-local" class="form-control" id="start" name="start" ng-model="start" required/>
+					<p class="validation-error" ng-if="confirmForm.start.$invalid && confirmForm.start.$touched">Invalid Date.</p>
 				</div>
 				
 				<div class="form-group">
 					<label for="end">End Date and Time:</label>
 					<input type="datetime-local" class="form-control" id="end" name="end" ng-model="end" required/>
+					<p class="validation-error" ng-if="confirmForm.end.$invalid && confirmForm.end.$touched">Invalid Date.</p>
 				</div>
-			</div>
-			
-			<div class="form-group">
-				<label for="loc">Location (or building name)</label>
-				<input type="text" class="form-control" id="loc" name="loc" ng-model="loc" placeholder="Where is it located?" required />
-				<p class="validation-error" ng-if="confirmForm.loc.$error.required && confirmForm.loc.$touched">Building name is required.</p>
-			</div>
-			
-			<div class="form-group">
-				<label for="room">Room Number</label>
-				<input type="text" class="form-control" id="room" name="room" ng-model="room" placeholder="Room #" min="0" required />
-				<p class="validation-error" ng-if="confirmForm.room.$error.required && confirmForm.room.$touched">What is the room number?</p>
-			</div>
-			
-			<div class="form-group">
-				<label for="description">Description</label>
-				<textarea type="text" class="form-control" id="description" name="description" ng-model="description" placeholder="Description" required /></textarea>
-				<p class="validation-error" ng-if="confirmForm.description.$error.required && confirmForm.description.$touched">Type a description so people know what this is about!</p>
-			</div>
-			
-			<button type="submit" class="btn btn-success" ng-disabled="confirmForm.$invalid">Submit Event</button>
-		</form>
+				
+				<div class="form-group">
+					<label for="loc">Location (or building name)</label>
+					<input type="text" class="form-control" id="loc" name="loc" ng-model="loc" placeholder="Where is it located?" required />
+					<p class="validation-error" ng-if="confirmForm.loc.$error.required && confirmForm.loc.$touched">Building name is required.</p>
+				</div>
+				
+				<div class="form-group">
+					<label for="room">Room Number</label>
+					<input type="text" class="form-control" id="room" name="room" ng-model="room" placeholder="Room #" min="0" required />
+					<p class="validation-error" ng-if="confirmForm.room.$error.required && confirmForm.room.$touched">What is the room number?</p>
+				</div>
+				
+				<div class="form-group">
+					<label for="description">Description</label>
+					<textarea type="text" class="form-control" id="description" name="description" ng-model="description" placeholder="Description" required /></textarea>
+					<p class="validation-error" ng-if="confirmForm.description.$error.required && confirmForm.description.$touched">Type a description so people know what this is about!</p>
+				</div>
+				
+				<button type="submit" class="btn btn-success" ng-disabled="confirmForm.$invalid">Submit Event</button>
+			</form>
+		</div>
 	</main>
 	
-	<form name="location" novalidate>
+	<!--<form name="location" novalidate>
 		<input id="autocomplete" type="text" placeholder="Building Name" id="loc" name="loc" ng-model="data.loc" required />
 		<p class="validation-error" ng-if="location.loc.$touched">Where is your event?</p>
 		
 		<div id="map"></div>
-	</form>
-	
-	
-	<!-- jQuery library -->
-	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	</form>-->
 	
 	<!-- Angular CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	
 	
 	<script src="js/app.js"></script>
 </body>

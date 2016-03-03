@@ -76,7 +76,7 @@ h1 {
 	font-weight: bold;
 	font-size: 2em;
 	margin: 1em;
-	visibility: hidden;
+	display: none;
 }
 
 .pin {
@@ -104,4 +104,44 @@ h1 {
 
 .admins {
 	float: right;
+}
+
+div.blocktext {
+	display: block;
+	margin: 0 auto;
+	width: 298px;
+	border: 1px solid #000;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+	background: #FAFAFA;
+	border-radius: 5px;
+	padding: 1em;
+}
+
+.center {
+	text-align: center;
+}
+
+.notice {
+	color: #DD0000;
+}
+
+.cursorstyle {
+	cursor: pointer;
+}
+
+.block {
+	display: block;
+	margin: 0 auto;
+	width: 422px;
+	border: 1px solid #000;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+	background: #FAFAFA;
+	border-radius: 5px;
+	padding: 1em;
+	padding-bottom: 3em;
+}
+
+.alert {
+	text-align: center;
+	display: none;
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Track'd</title>
+	
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- Font Awesome -->
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	
+	<link rel="icon" href="img/fav-logo.png">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body ng-app="Dashboard" ng-controller="EventApprovalController">
+	<nav>
+		<ul>
+			<li><a href="index.html"><img id="navlogo" src="img/logo1.png"></a></li>
+			<li class="admins">
+				<form ng-submit="signout()">
+					<button type="submit" class="btn btn-danger">Sign Out</button>
+				</form>	
+			</li>
+		</ul>
+	</nav>
+	
+	<main>
+		<h1>Approve / Decline Events</h1>
+		
+		<h5 class="noevents">No Events to Approve.</h5>
+
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Event Name</th>
+					<th>Hosted By</th>
+					<th>Begins/End</th>
+					<th>Location</th>
+					<th>Description</th>
+					<th>Status</th>
+					<th>Remove?</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="event in events">
+					<td>{{ event.eventname }}</td>
+					<td>{{ event.orgname }}</td>
+					<td>{{ event.start | date:'EEE, MMM dd, y' }} <br /> {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}</td>
+					<td>{{ event.loc }}</td>
+					<td>{{ event.description }}</td>
+					<td>{{ event.approved }} <a class="cursorstyle" ng-click="approveEvent(event)">Approve</a></td>
+					<td><a class="cursorstyle btn btn-danger" ng-click="removeEvent(event)"><i class="icon-trash icon-large"></i>  Remove</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</main>
+
+	
+	
+	<!-- jQuery library -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	
+	<!-- Angular CDN -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	
+	<script src="js/dash.js"></script>
+</body>
+</html>

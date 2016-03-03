@@ -3,6 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Admin = require('../models/admin.js');
 
+// Creates a new admin. Uncomment and comment out passport below to create a new admin.
 // passport.use('local-signin', new LocalStrategy({
 //     usernameField: 'username',
 //     passwordField: 'password',
@@ -29,6 +30,7 @@ var Admin = require('../models/admin.js');
 //     })
 // }));
 
+// Signs admin users in to see dashboard to accept/decline events
 passport.use('local-signin', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -44,6 +46,7 @@ passport.use('local-signin', new LocalStrategy({
             console.log("Password is incorrect.");
             return new Error("Password is incorrect");
         } else {
+            console.log("User sucessfully signed in.");
             done(null, user);
         }
     });

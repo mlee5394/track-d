@@ -61,13 +61,6 @@ mongoose.connection.on('error', function(err) {
     console.error(err);
 });
 
-require('./controllers/passport.js');
-
-// Locates to Sign the Admin in
-app.post('/secure/signin', passport.authenticate('local-signin'),
-    function(req, res) { return res.json(req.user); }
-);
-
 // Posts a new event
 app.post('/newevent', function(req, res) {
     Events.find({ 'orgname': req.body.orgname }, function(err, org) {
@@ -93,7 +86,9 @@ app.post('/newevent', function(req, res) {
         } else {
             var exists = false;
             for (var i = 0; i < org.length; i++) {
-                if (org[i].eventname == req.body.eventname) {
+                console.log(org[i].start);
+                console.log(newEvent.start);
+                if (org[i].eventname == req.body.eventname && org[i].start == newEvent.start) {
                     exists = true;
                     console.log("Event already exists");
                     return res.status(400).json({ message: "Event already exists" });
@@ -111,13 +106,74 @@ app.post('/newevent', function(req, res) {
 
 app.get('/api/v1/eventslist', function(req, res) {
     Events.find(function(err, events) {
-        if (events.length == 0) {
-            // res.json("No current events.");
+        if (events.length == 0 || err) {
+            console.log("No Current Events");
+            res.status(400).json({ message: "No Current Events." });
+        } else {
+            // res.json(events);
+            var eventslist = [];
+            for (var i = 0; i < events.length; i++) {
+                if (events[i].approved) {
+                    eventslist.push(events[i]);
+                }
+            }
+            if (eventslist.length == 0) {
+                res.status(401).json({ message: "No events have been approved yet." });
+            } else {
+                res.json(eventslist);
+            }
+        }
+    });
+});
+
+require('./controllers/passport.js');
+
+// Locates to Sign the Admin in
+app.post('/secure/signin', passport.authenticate('local-signin'),
+    function(req, res) { return res.json(req.user); }
+);
+
+// Checks to see if use hard-coded the url and if they're logged in or not
+app.use(function(req, res, next) {
+    if (!req.isAuthenticated()) {
+        res.redirect('/index.html');
+    } else {
+        next();
+    }
+});
+
+// Goes to Profile Page 
+app.use(express.static(__dirname + '/static/secure/'));
+
+app.get('/dashboard', function(req, res) {
+    res.json(req.user);
+});
+
+// Grab All Events for approval
+app.get('/api/v1/eventslist/admin', function(req, res) {
+    Events.find(function(err, events) {
+        if (events.length == 0 || err) {
+            console.log("No Current Events");
             res.status(400).json({ message: "No Current Events." });
         } else {
             res.json(events);
         }
     });
+});
+
+app.delete('/api/v1/remove/:event_id', function(req, res) {
+    Events.findById(req.params.event_id, function(err, event) {
+        event.remove({ "_id": req.params.event_id});
+        console.log("Successfully Removed the Event");
+    });
+    Events.find(function(err, events) {
+        if (events.length == 0 || err) {
+            console.log("No Current Events");
+            res.status(400).json({ mesage: "No Current Events." });
+        } else {
+            res.json(events);
+        }
+    })
 });
 
 // listen for HTTP requests on port 80

@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Track'd</title>
+	<title>Track'd | Current Events</title>
 	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -18,14 +18,14 @@
 			<li><a href="index.html"><img id="navlogo" src="img/logo1.png"></a></li>
 			<li><a href="event.html">Post an Event</a></li>
 			<li><a href="about.html">About</a></li>
-			<li class="admins"><a href="signin.html">Admins Signin Here</a></li>
+			<li class="admins"><a class="btn btn-info" href="signin.html">Admins Sign In Here</a></li>
 		</ul>
 	</nav>
 	
 	<main>
 		<h1>What's Happening Around You</h1>
 		
-		<p class="noevents">No Current Events.</p>
+		<p class="noevents">No Current Events. If you recently submitted, wait for an administrator to accept your event!</p>
 
 		<div class="pin" ng-repeat="event in events">
 			<p>{{ event.eventname }}</p>
