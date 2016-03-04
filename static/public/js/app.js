@@ -84,4 +84,6 @@ angular.module('Events', [])
 				showNoEvent();
 			}
 		});
+	}).controller("MapController", function($scope, $http) {
+		
 	});

@@ -167,3 +167,7 @@ div.blocktext {
     text-align: left;
 	margin-bottom: 1em;
 }
+
+#map {
+	height: 100%;
+}
