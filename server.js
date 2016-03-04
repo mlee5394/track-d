@@ -104,6 +104,7 @@ app.post('/newevent', function(req, res) {
     });
 });
 
+// Shows approved events
 app.get('/api/v1/eventslist', function(req, res) {
     Events.find(function(err, events) {
         if (events.length == 0 || err) {
@@ -182,6 +183,7 @@ app.get('/api/v1/admin/approve/wait', function(req, res) {
     });
 });
 
+// Displays approved events.
 app.get('/api/v1/admin/approve/approved', function(req, res) {
     Events.find(function(err, events) {
         if (events.length == 0 || err) {

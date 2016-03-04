@@ -1,8 +1,16 @@
-/* Lato font: 300, 400, and 300 italic face */
-@import url(https://fonts.googleapis.com/css?family=Lato:400,300italic,300);
+@font-face {
+    font-family: EncodeSans;
+    src: url("../fonts/EncodeSansNormal-900-Black.ttf");
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url("../fonts/Open Sans regular.ttf");
+}
 
 body {
-	font-family: Lato, 'Helvetica Neue', Helvetica, sans-serif;
+	/*font-family: Lato, 'Helvetica Neue', Helvetica, sans-serif;*/
+    font-family: OpenSans;
 	font-size: 16px;
 	font-weight: 300;
 	background-color: #E9EAEE;
@@ -10,7 +18,7 @@ body {
 
 nav {
 	position: absolute;
-	background-color: #5C2A66;
+	background-color: #4B2E83;
 	color: #FFF;
 	top: 0;
 	left: 0;
@@ -34,11 +42,12 @@ nav a {
 
 nav a:hover, nav a:focus {
 	text-decoration: none;
-	color: #E9EAEE;
+	color: #85754d;
 }
 
 #navlogo {
 	width: 44.8px;
+    color: #FFF;
 }
 
 main {
@@ -65,6 +74,9 @@ button {
 
 h1 {
 	text-align: center;
+    font-family: EncodeSans;
+    color: #4B2E83;
+    display: inline-block;
 }
 
 .form-inline {
@@ -144,4 +156,13 @@ div.blocktext {
 .alert {
 	text-align: center;
 	display: none;
+}
+
+.bar {
+    width: 10%;
+    display: block;
+}
+
+.header {
+    text-align: left;
 }
