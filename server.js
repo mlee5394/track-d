@@ -216,6 +216,28 @@ app.post('/api/v1/admin/approve/:event_id', function(req, res) {
     });
 });
 
+// All past approved events
+app.get('/api/v1/admin/past', function(req, res) {
+    var today = new Date();
+    
+    Events.find(function(err, events) {
+        var pastEvents = [];
+        console.log(events.length + " number of events");
+        for (var i = 0; i < events.length; i++) {
+            var edate = Date.parse(events[i].start);
+            if (Date.parse(events[i].start) < today) {
+                console.log("event has past, adding to pastevents");
+                pastEvents.push(events[i]);
+            }
+        }
+        if (pastEvents.length == 0) {
+            res.status(401).json({ message: "No events have passed." });
+        } else {
+            res.json(pastEvents);
+        }
+    });
+})
+
 // Admin declined the approval. Remove from database.
 app.delete('/api/v1/admin/decline/:event_id', function(req, res) {
     Events.findById(req.params.event_id, function(err, event) {

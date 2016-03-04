@@ -88,4 +88,25 @@ angular.module('Dashboard', [])
 				noEvents();
 			}
 		});
+	}).controller("PastEventController", function($scope, $http) {
+		'use strict';
+		
+		// Signs out the Admin for this session
+		$scope.signout = function() {
+			$http.get('/signout')
+			.then(function(response) {
+				if (response.status == 200) {
+					window.location.href = '/index.html'
+				}
+			});
+		};
+		
+		$http.get('/api/v1/admin/past')
+		.then(function(data) {
+			$scope.events = data.data;
+		}).catch(function(err) {
+			if (err.status == 401) {
+				noEvents();
+			}
+		})
 	})

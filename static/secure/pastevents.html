@@ -16,7 +16,7 @@
 	<link rel="icon" href="img/fav-logo.png">
 	<link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-app="Dashboard" ng-controller="EventApprovalController">
+<body ng-app="Dashboard" ng-controller="PastEventController">
 	<nav>
 		<ul>
 			<li><a href="index.html"><img id="navlogo" src="img/logo_white.png"></a></li>
@@ -33,11 +33,11 @@
 	
 	<main>
         <div class="header">
-            <h1>Approve / Decline Events</h1>
+            <h1>Past Events</h1>
             <img class="bar" src="img/bar.png">
         </div>
 		
-		<h5 class="noevents">No Events.</h5>
+		<h5 class="noevents">No Past Events.</h5>
 
 		<table class="table table-hover">
 			<thead>
@@ -47,8 +47,6 @@
 					<th>Begins/End</th>
 					<th>Location</th>
 					<th>Description</th>
-					<th>Approve</th>
-					<th>Decline</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -58,15 +56,10 @@
 					<td>{{ event.start | date:'EEE, MMM dd, y' }} <br /> {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}</td>
 					<td>{{ event.loc }}</td>
 					<td>{{ event.description }}</td>
-					<td><a class="cursorstyle btn btn-small btn-success" ng-click="approveEvent(event)"><i class="icon-thumbs-up"></i> Approve</a></td>
-					<td><a class="cursorstyle btn btn-danger btn-small" ng-click="removeEvent(event)"><i class="icon-trash icon-large"></i>  Decline</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</main>
-	
-	<!-- ONly approve if they haven't been approved yet.-->
-
 	
 	
 	<!-- jQuery library -->
