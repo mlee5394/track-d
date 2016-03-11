@@ -11,6 +11,7 @@
 	
 	<link rel="icon" href="img/fav-logo.png">
 	<link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/map.css">
 </head>
 <body>
 	<nav>
@@ -28,8 +29,18 @@
             <h1>What's Happening Around You</h1>
             <img class="bar" src="img/bar.png">
         </div>
-		
-		<div id="map"></div>
+        <form name="info" novalidate>
+            <input id="loc" class="controls" type="text" placeholder="Where is your event located?"
+                id="loc" name="loc" ng-model="loc" required/>
+            <p class="validation-error" ng-if="info.loc.$touched && info.loc.$error.required">
+                We need to know this so that we can send your friend or family a text!
+            </p>
+            
+            <div class="mapplace"><div id="map">hey</div></div>
+            
+            
+        </form>
+
 	</main>
 	
 	<!-- jQuery library -->
@@ -38,12 +49,9 @@
 	<!-- Angular CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 
-	<!-- Google Maps API -->
-	<script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBur2sWciC5fMpk0h8N8YrmILEqxRRIUpY&callback=initMap">
-    </script>
-	
-	<!--<script src="js/app.js"></script>-->
-	<script src="js/map.js"></script>
+	<!-- Google Maps API -->	
+    <script src="js/map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBur2sWciC5fMpk0h8N8YrmILEqxRRIUpY&libraries=places&callback=initAutocomplete"
+         async defer></script>
 </body>
 </html>

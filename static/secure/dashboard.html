@@ -19,12 +19,12 @@
 <body ng-app="Dashboard" ng-controller="EventApprovalController">
 	<nav>
 		<ul>
-			<li><a href="index.html"><img id="navlogo" src="img/logo_white.png"></a></li>
+			<li><a href="preview.html"><img id="navlogo" src="img/logo_white.png"></a></li>
 			<li><a href="dashboard.html">Awaiting Approval</a></li>
 			<li><a href="currentevents.html">Current Events</a></li>
 			<li><a href="pastevents.html">Past Events</a></li>
 			<li class="admins">
-				<form ng-submit="signout()">
+				<form action="/signout" method="GET">
 					<button type="submit" class="btn btn-danger">Sign Out</button>
 				</form>	
 			</li>

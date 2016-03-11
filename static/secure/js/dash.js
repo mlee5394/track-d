@@ -7,16 +7,6 @@ angular.module('Dashboard', [])
 	.controller("EventApprovalController", function($scope, $http) {
 		'use strict';
 		
-		// Signs out the Admin for this session
-		$scope.signout = function() {
-			$http.get('/signout')
-			.then(function(response) {
-				if (response.status == 200) {
-					window.location.href = '/index.html'
-				}
-			});
-		};
-		
 		// Grabs all events to display for the admin to approve
 		$http.get('/api/v1/admin/approve/wait')
 		.then(function(data) {
@@ -69,16 +59,6 @@ angular.module('Dashboard', [])
 	}).controller("ApprovalController", function($scope, $http) {
 		'use strict';
 		
-		// Signs out the Admin for this session
-		$scope.signout = function() {
-			$http.get('/signout')
-			.then(function(response) {
-				if (response.status == 200) {
-					window.location.href = '/index.html'
-				}
-			});
-		};
-		
 		// Grabs all events to display for approved events
 		$http.get('/api/v1/admin/approve/approved')
 		.then(function(data) {
@@ -91,16 +71,6 @@ angular.module('Dashboard', [])
 	}).controller("PastEventController", function($scope, $http) {
 		'use strict';
 		
-		// Signs out the Admin for this session
-		$scope.signout = function() {
-			$http.get('/signout')
-			.then(function(response) {
-				if (response.status == 200) {
-					window.location.href = '/index.html'
-				}
-			});
-		};
-		
 		$http.get('/api/v1/admin/past')
 		.then(function(data) {
 			$scope.events = data.data;
@@ -109,4 +79,15 @@ angular.module('Dashboard', [])
 				noEvents();
 			}
 		})
+	}).controller('ViewController', function($scope, $http) {
+		'use strict';
+		
+		$http.get('/api/v1/eventslist').then(function(data) {
+            console.log(data.data)
+			$scope.events = data.data;
+		}).catch(function(reason) {
+			if (reason.status == '400') {
+				showNoEvent();
+			}
+		});
 	})

@@ -4,22 +4,18 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Track'd | Approved Events</title>
+	<title>Track'd | Current Events</title>
 	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-	<!-- Font Awesome -->
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-	
 	<link rel="icon" href="img/fav-logo.png">
 	<link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-app="Dashboard" ng-controller="ApprovalController">
+<body ng-app="Dashboard" ng-controller="ViewController">
 	<nav>
 		<ul>
-			<li><a href="preview.html"><img id="navlogo" src="img/logo_white.png"></a></li>
+			<li><a href="#"><img id="navlogo" src="img/logo_white.png"></a></li>
 			<li><a href="dashboard.html">Awaiting Approval</a></li>
 			<li><a href="currentevents.html">Current Events</a></li>
 			<li><a href="pastevents.html">Past Events</a></li>
@@ -33,33 +29,20 @@
 	
 	<main>
         <div class="header">
-            <h1>Approved Events</h1>
+            <h1>What's Happening Around You (Preview)</h1>
             <img class="bar" src="img/bar.png">
         </div>
 		
-		<h5 class="noevents">:( No approved events.</h5>
+		<p class="noevents">No Current Events. If you recently submitted, wait for an administrator to accept your event!</p>
 
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Event Name</th>
-					<th>Hosted By</th>
-					<th>Begins/End</th>
-					<th>Location</th>
-					<th>Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="event in events">
-					<td>{{ event.eventname }}</td>
-					<td>{{ event.orgname }}</td>
-					<td>{{ event.start | date:'EEE, MMM dd, y' }} <br /> {{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }}</td>
-					<td>{{ event.loc }}</td>
-					<td>{{ event.description }}</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="pin" ng-repeat="event in events">
+			<p>{{ event.eventname }}</p>
+			<p>{{ event.start | date:'EEE, MMM dd, y' }}</p>
+			<p>{{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }} </p>
+			<p>Hosted by: {{ event.orgname }}</p>
+		</div>
 	</main>
+
 	
 	
 	<!-- jQuery library -->
