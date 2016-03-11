@@ -255,6 +255,6 @@ app.delete('/api/v1/admin/decline/:event_id', function(req, res) {
 });
 
 // listen for HTTP requests on port 80
-app.listen(80, function() {
+app.listen(8080, function() {
 	console.log('server is listening');
 });
