@@ -135,18 +135,21 @@ app.post('/secure/signin', passport.authenticate('local-signin'),
 );
 
 // Checks to see if use hard-coded the url and if they're logged in or not
-app.use(function(req, res, next) {
-    if (!req.isAuthenticated()) {
-        res.redirect('/index.html');
-    } else {
-        next();
-    }
-});
+// app.use(function(req, res, next) {
+//     console.log(req.user)
+//     console.log(req.isAuthenticated())
+//     if (!req.isAuthenticated()) {
+//         res.redirect('/index.html');
+//     } else {
+//         next();
+//     }
+// });
 
 // Goes to Profile Page 
 app.use(express.static(__dirname + '/static/secure/'));
 
 app.get('/dashboard', function(req, res) {
+    console.log("Gets in here for dashboard.html");
     res.json(req.user);
 });
 
@@ -219,14 +222,12 @@ app.post('/api/v1/admin/approve/:event_id', function(req, res) {
 // All past approved events
 app.get('/api/v1/admin/past', function(req, res) {
     var today = new Date();
-    
+
     Events.find(function(err, events) {
         var pastEvents = [];
-        console.log(events.length + " number of events");
         for (var i = 0; i < events.length; i++) {
             var edate = Date.parse(events[i].start);
             if (Date.parse(events[i].start) < today) {
-                console.log("event has past, adding to pastevents");
                 pastEvents.push(events[i]);
             }
         }
