@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Track'd | Current Events</title>
+	<title>ASUW Events | Current Events</title>
 	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -12,13 +12,14 @@
 	<link rel="icon" href="img/fav-logo.png">
 	<link rel="stylesheet" href="css/main.css">
 </head>
-<body ng-app="Dashboard" ng-controller="ViewController">
+<body ng-app="Events" ng-controller="ViewController">
 	<nav>
 		<ul>
-			<li><a href="#"><img id="navlogo" src="img/logo_white.png"></a></li>
-			<li><a href="dashboard.html">Awaiting Approval</a></li>
-			<li><a href="currentevents.html">Current Events</a></li>
-			<li><a href="pastevents.html">Past Events</a></li>
+			<li><a href="index.html"><img id="navlogo" src="img/logo_white.png"></a></li>
+			<li><a href="index.html">Events</a></li>
+			<li><a href="mapview.html">View on a Map</a></li>
+			<li><a href="event.html">Post an Event</a></li>
+			<li><a href="about.html">About</a></li>
 			<li class="admins">
 				<form action="/signout" method="GET">
 					<button type="submit" class="btn btn-danger">Sign Out</button>
@@ -29,17 +30,46 @@
 	
 	<main>
         <div class="header">
-            <h1>What's Happening Around You (Preview)</h1>
+            <h1>What's Happening Around You</h1>
             <img class="bar" src="img/bar.png">
         </div>
 		
 		<p class="noevents">No Current Events. If you recently submitted, wait for an administrator to accept your event!</p>
-
-		<div class="pin" ng-repeat="event in events">
-			<p>{{ event.eventname }}</p>
-			<p>{{ event.start | date:'EEE, MMM dd, y' }}</p>
-			<p>{{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }} </p>
-			<p>Hosted by: {{ event.orgname }}</p>
+		<h2>In the next week</h2>
+		
+		<!--<div class="container">-->
+			<div class="row">
+				<div class="col-xs-4 pin" ng-repeat="week in weeks">
+					<p>{{ week.eventname }}</p>
+					<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
+					<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
+					<p>Hosted by: {{ week.orgname }}</p>
+				</div>
+			</div>
+		<!--</div>-->
+		
+		<h2>Upcoming Month</h2>
+		<p class="nomonth">No events in the next month.</p>
+			
+		<div class="row">
+			<div class="col-xs-4 pin" ng-repeat="month in months">
+				<p>{{ month.eventname }}</p>
+				<p>{{ month.start | date:'EEE, MMM dd, y' }}</p>
+				<p>{{ month.start | date:'shortTime' }} - {{ month.end | date:'shortTime' }} </p>
+				<p>Hosted by: {{ month.orgname }}</p>
+			</div>
+		</div>
+			
+			
+		<h2>Future Events</h2>
+		<p class="nofuture">No future events posted.</p>
+		<div class="row">
+			<div class="col-xs-4 pin" ng-repeat="year in years">
+				<p>{{ week.eventname }}</p>
+				<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
+				<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
+				<p>Hosted by: {{ week.orgname }}</p>
+			</div>
 		</div>
 	</main>
 
@@ -51,6 +81,6 @@
 	<!-- Angular CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 	
-	<script src="js/dash.js"></script>
+	<script src="js/app.js"></script>
 </body>
 </html>

@@ -95,10 +95,10 @@ h1 {
 	margin-bottom: 1em;
 }
 
-.noevents {
+.noevents, .nomonth, .nofuture {
 	text-align: center;
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 1.5em;
 	margin: 1em;
 	display: none;
 }
@@ -228,9 +228,9 @@ div.blocktext {
 	}
 }
 
-@media(min-width: 725px) {
+@media(min-width: 750px) {
 	.mapview {
-		width: 1200px;
+		width: 700px;
 		height: 600px;
 	}
 }

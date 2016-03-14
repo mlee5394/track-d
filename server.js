@@ -86,9 +86,7 @@ app.post('/newevent', function(req, res) {
         } else {
             var exists = false;
             for (var i = 0; i < org.length; i++) {
-                console.log(org[i].start);
-                console.log(newEvent.start);
-                if (org[i].eventname == req.body.eventname && org[i].start == newEvent.start) {
+                if (org[i].eventname == req.body.eventname && org[i].start == newEvent.start && org[i].loc == req.body.loc) {
                     exists = true;
                     console.log("Event already exists");
                     return res.status(400).json({ message: "Event already exists" });
@@ -105,17 +103,107 @@ app.post('/newevent', function(req, res) {
 });
 
 // Shows approved events
-app.get('/api/v1/eventslist', function(req, res) {
+// app.get('/api/v1/eventslist', function(req, res) {
+//     Events.find(function(err, events) {
+//         if (events.length == 0 || err) {
+//             console.log("No Current Events");
+//             res.status(400).json({ message: "No Current Events." });
+//         } else {
+//             // res.json(events);
+//             var eventslist = [];
+//             for (var i = 0; i < events.length; i++) {
+//                 if (events[i].approved) {
+//                     eventslist.push(events[i]);
+//                 }
+//             }
+//             if (eventslist.length == 0) {
+//                 res.status(401).json({ message: "No events have been approved yet." });
+//             } else {
+//                 res.json(eventslist);
+//             }
+//         }
+//     });
+// });
+
+// Events for the next 7 days
+app.get('/api/v1/events7', function(req, res) {
+    var today = new Date();
+    var week = new Date();
+    week.setDate(week.getDate() + 7);
+    
     Events.find(function(err, events) {
         if (events.length == 0 || err) {
             console.log("No Current Events");
             res.status(400).json({ message: "No Current Events." });
         } else {
-            // res.json(events);
             var eventslist = [];
             for (var i = 0; i < events.length; i++) {
                 if (events[i].approved) {
-                    eventslist.push(events[i]);
+                    var start = new Date(events[i].start);
+                    
+                    if (start >= today && start < week) {
+                        eventslist.push(events[i]);
+                    }
+                }
+            }
+            if (eventslist.length == 0) {
+                res.status(401).json({ message: "No events have been approved yet." });
+            } else {
+                res.json(eventslist);
+            }
+        }
+    });
+});
+
+// Events for the next month (31) days
+app.get('/api/v1/events31', function(req, res) {
+    var today = new Date();
+    today.setDate(today.getDate() + 7)
+    var month = new Date();
+    month.setDate(month.getDate() + 31);
+    
+    Events.find(function(err, events) {
+        if (events.length == 0 || err) {
+            console.log("No Current Events");
+            res.status(400).json({ message: "No Current Events." });
+        } else {
+            var eventslist = [];
+            for (var i = 0; i < events.length; i++) {
+                if (events[i].approved) {
+                    var start = new Date(events[i].start);
+                    
+                    if (start >= today && start < month) {
+                        eventslist.push(events[i]);
+                    }
+                }
+            }
+            if (eventslist.length == 0) {
+                res.status(401).json({ message: "No events have been approved yet." });
+            } else {
+                res.json(eventslist);
+            }
+        }
+    });
+});
+
+// All events after 31 days from today's date
+app.get('/api/v1/allevents', function(req, res) {
+    var today = new Date();
+    today.setDate(today.getDate() + 31);
+    
+    Events.find(function(err, events) {
+        if (events.length == 0 || err) {
+            console.log("No Current Events");
+            res.status(400).json({ message: "No Current Events." });
+        } else {
+            var eventslist = [];
+            for (var i = 0; i < events.length; i++) {
+                if (events[i].approved) {
+                    var start = new Date(events[i].start);
+                    
+                    if (start >= today) {
+                        eventslist.push(events[i]);
+                    }
                 }
             }
             if (eventslist.length == 0) {
@@ -136,8 +224,6 @@ app.post('/secure/signin', passport.authenticate('local-signin'),
 
 // Checks to see if use hard-coded the url and if they're logged in or not
 app.use(function(req, res, next) {
-    console.log(req.user)
-    console.log(req.isAuthenticated())
     if (!req.isAuthenticated()) {
         res.redirect('/index.html');
     } else {
@@ -186,8 +272,10 @@ app.get('/api/v1/admin/approve/wait', function(req, res) {
     });
 });
 
-// Displays approved events.
+// Displays upcoming approved events
 app.get('/api/v1/admin/approve/approved', function(req, res) {
+    var today = new Date();
+    
     Events.find(function(err, events) {
         if (events.length == 0 || err) {
             console.log("No Current Events");
@@ -195,7 +283,8 @@ app.get('/api/v1/admin/approve/approved', function(req, res) {
         } else {
             var eventslist = [];
             for (var i = 0; i < events.length; i++) {
-                if (events[i].approved) {
+                var start = new Date(events[i].start);
+                if (events[i].approved && start >= today) {
                     eventslist.push(events[i]);
                 }
             }

@@ -19,6 +19,14 @@ function endMatch() {
 	$('.wrongend').css('display', 'block');
 }
 
+function noMonth() {
+  $('.nomonth').css('display', 'block');
+}
+
+function noFuture() {
+  $('.nofuture').css('display', 'block');
+}
+
 var placeName = "";
 
 function initAutocomplete() {
@@ -134,15 +142,36 @@ angular.module('Events', [])
 		}
 	})
 	.controller('ViewController', function($scope, $http) {
-		'use strict';
+    'use strict';
 		
-		$http.get('/api/v1/eventslist').then(function(data) {
-			$scope.events = data.data;
+    // Shows events in the next 7 days
+		$http.get('/api/v1/events7').then(function(week) {
+      $scope.weeks = week.data;
 		}).catch(function(reason) {
-			if (reason.status == '400') {
-				showNoEvent();
-			}
+        if (reason.status == '401') {
+          showNoEvent();
+        }
 		});
+    
+    // Shows events in the next 31 days
+    $http.get('/api/v1/events31').then(function(month) {
+      $scope.months = month.data;
+    }).catch(function(reason) {
+      if (reason.status == '401') {
+        noMonth();
+      }
+    });
+    
+    // Shows events in the next year
+    $http.get('/api/v1/allevents').then(function(all) {
+      $scope.year = all.data;
+    }).catch(function(reason) {
+      if (reason.status == '401') {
+        noFuture();
+      }
+    });
+    
+    
 	}).controller("MapController", function($scope, $http) {
 		
 	});

@@ -34,18 +34,38 @@
 		
 		<!--<div class="container">-->
 			<div class="row">
-				<div class="col-xs-4 pin" ng-repeat="event in events">
-					<p>{{ event.eventname }}</p>
-					<p>{{ event.start | date:'EEE, MMM dd, y' }}</p>
-					<p>{{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }} </p>
-					<p>Hosted by: {{ event.orgname }}</p>
+				<div class="col-xs-4 pin" ng-repeat="week in weeks">
+					<p>{{ week.eventname }}</p>
+					<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
+					<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
+					<p>Hosted by: {{ week.orgname }}</p>
 				</div>
 			</div>
 		<!--</div>-->
 		
 		<h2>Upcoming Month</h2>
-		
-		<h2>Pre-Posted Events</h2>
+		<p class="nomonth">No events in the next month.</p>
+			
+		<div class="row">
+			<div class="col-xs-4 pin" ng-repeat="month in months">
+				<p>{{ month.eventname }}</p>
+				<p>{{ month.start | date:'EEE, MMM dd, y' }}</p>
+				<p>{{ month.start | date:'shortTime' }} - {{ month.end | date:'shortTime' }} </p>
+				<p>Hosted by: {{ month.orgname }}</p>
+			</div>
+		</div>
+			
+			
+		<h2>Future Events</h2>
+		<p class="nofuture">No future events posted.</p>
+		<div class="row">
+			<div class="col-xs-4 pin" ng-repeat="year in years">
+				<p>{{ week.eventname }}</p>
+				<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
+				<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
+				<p>Hosted by: {{ week.orgname }}</p>
+			</div>
+		</div>
 		
 		<!--<div class="pin" ng-repeat="event in events">
 			<p>{{ event.eventname }}</p>
