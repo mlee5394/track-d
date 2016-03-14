@@ -30,13 +30,29 @@
         </div>
 		
 		<p class="noevents">No Current Events. If you recently submitted, wait for an administrator to accept your event!</p>
-
-		<div class="pin" ng-repeat="event in events">
+		<h2>In the next week</h2>
+		
+		<!--<div class="container">-->
+			<div class="row">
+				<div class="col-xs-4 pin" ng-repeat="event in events">
+					<p>{{ event.eventname }}</p>
+					<p>{{ event.start | date:'EEE, MMM dd, y' }}</p>
+					<p>{{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }} </p>
+					<p>Hosted by: {{ event.orgname }}</p>
+				</div>
+			</div>
+		<!--</div>-->
+		
+		<h2>Upcoming Month</h2>
+		
+		<h2>Pre-Posted Events</h2>
+		
+		<!--<div class="pin" ng-repeat="event in events">
 			<p>{{ event.eventname }}</p>
 			<p>{{ event.start | date:'EEE, MMM dd, y' }}</p>
 			<p>{{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }} </p>
 			<p>Hosted by: {{ event.orgname }}</p>
-		</div>
+		</div>-->
 	</main>
 
 	

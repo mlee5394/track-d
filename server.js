@@ -135,15 +135,15 @@ app.post('/secure/signin', passport.authenticate('local-signin'),
 );
 
 // Checks to see if use hard-coded the url and if they're logged in or not
-// app.use(function(req, res, next) {
-//     console.log(req.user)
-//     console.log(req.isAuthenticated())
-//     if (!req.isAuthenticated()) {
-//         res.redirect('/index.html');
-//     } else {
-//         next();
-//     }
-// });
+app.use(function(req, res, next) {
+    console.log(req.user)
+    console.log(req.isAuthenticated())
+    if (!req.isAuthenticated()) {
+        res.redirect('/index.html');
+    } else {
+        next();
+    }
+});
 
 // Goes to Profile Page 
 app.use(express.static(__dirname + '/static/secure/'));
@@ -256,6 +256,6 @@ app.delete('/api/v1/admin/decline/:event_id', function(req, res) {
 });
 
 // listen for HTTP requests on port 80
-app.listen(8080, function() {
+app.listen(80, function() {
 	console.log('server is listening');
 });

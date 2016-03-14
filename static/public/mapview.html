@@ -4,14 +4,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>ASUW Events | Current Events</title>
+	<title>ASUW Events | Add an Event</title>
 	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	
+	<!-- jQuery library -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
 	<link rel="icon" href="img/fav-logo.png">
 	<link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/map.css">
 </head>
 <body>
 	<nav>
@@ -25,33 +28,23 @@
 	</nav>
 	
 	<main>
-        <div class="header">
-            <h1>What's Happening Around You</h1>
-            <img class="bar" src="img/bar.png">
-        </div>
-        <form name="info" novalidate>
-            <input id="loc" class="controls" type="text" placeholder="Where is your event located?"
-                id="loc" name="loc" ng-model="loc" required/>
-            <p class="validation-error" ng-if="info.loc.$touched && info.loc.$error.required">
-                We need to know this so that we can send your friend or family a text!
-            </p>
-            
-            <div class="mapplace"><div id="map">hey</div></div>
-            
-            
-        </form>
-
+		<h1>View Events</h1>
+		<img class="bar" src="img/bar.png">
+		
+		<div class="mapview"><div id="map"></div></div>
 	</main>
 	
-	<!-- jQuery library -->
+	
+    <!-- jQuery library -->
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	
 	<!-- Angular CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-
-	<!-- Google Maps API -->	
-    <script src="js/map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBur2sWciC5fMpk0h8N8YrmILEqxRRIUpY&libraries=places&callback=initAutocomplete"
-         async defer></script>
+    
+    <!-- Google Maps API-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMmf3yAivOCYcRAcH8mNgWQWH6B6nuyG0&callback=initMap"
+        async defer></script>
+	
+	<script src="js/map.js"></script>
 </body>
 </html>
