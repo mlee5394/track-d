@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>ASUW Events | Current Events</title>
+	
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<link rel="icon" href="img/fav-logo.png">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body ng-app="Events" ng-controller="EventInfoController">
+	<nav>
+		<ul>
+			<li><a href="index.html"><img id="navlogo" src="img/logo_white.png"></a></li>
+			<li><a href="mapview.html">View on a Map</a></li>
+			<li><a href="addEvent.html">Post an Event</a></li>
+			<li><a href="about.html">About</a></li>
+		</ul>
+	</nav>
+	
+	
+	<main>
+		
+        <div class="header">
+            <h1>{{ event.eventname }}</h1>
+            <img class="bar" src="img/bar.png">
+			
+        </div>
+		<p class="align"><a href="index.html">Go Back</a></p>
+
+		<div class="pin top">
+			<h2>Hosted By: {{ event.orgname }}</h2>
+			<h4>
+				<svg enable-background="new 0 0 33 46" id="Layer_1" version="1.1" viewBox="0 0 33 46" width="33px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g><g><path d="M16.5,10.693c-3.165,0-5.741,2.558-5.741,5.705c0,3.143,2.576,5.701,5.741,5.701 c3.166,0,5.74-2.558,5.74-5.701C22.24,13.251,19.663,10.693,16.5,10.693z M16.5,19.247c-1.582,0-2.871-1.277-2.871-2.849c0-1.574,1.289-2.853,2.871-2.853c1.583,0,2.87,1.279,2.87,2.853C19.368,17.97,18.083,19.247,16.5,19.247z M16.5,0C7.401,0,0,7.366,0,16.421c0,11.127,14.768,28.005,15.396,28.717c0.271,0.309,0.643,0.477,1.079,0.486c0.412,0,0.803-0.174,1.075-0.482c0.633-0.713,15.5-17.595,15.45-28.729C32.958,7.364,25.556,0,16.5,0z M16.478,41.988 C13.089,37.897,2.868,24.86,2.868,16.421c0-7.482,6.115-13.57,13.631-13.57c7.482,0,13.595,6.091,13.63,13.578 C30.168,24.857,19.884,37.9,16.478,41.988z" fill="#A3A2A3"></path></g></g></svg>{{ event.loc }}
+			</h4>
+		</div>
+		
+		<div class="pin nopad">
+			<h2>Start</h2>
+			<p>
+				{{ event.start | date:'shortTime' }} <br />
+				{{ event.start | date:'EEEE, MMM dd, y' }}
+			</p>
+			
+			<h2>End</h2>
+			<p>
+				{{ event.end | date:'shortTime' }} <br />
+				{{ event.end | date:'EEEE, MMM dd, y' }}
+			</p>
+		</div>
+		
+		<div class="pin top-align">
+			<h2>Event Information</h2>
+			{{ event.description }}
+		</div>
+		
+	</main>
+
+	
+	
+	<!-- jQuery library -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	
+	<!-- Angular CDN -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	
+	<script src="js/app.js"></script>
+</body>
+</html>

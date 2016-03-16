@@ -31,11 +31,15 @@
 		<h2>In the next week</h2>
 		<h4 class="noevents">No Current Events. If you recently submitted, wait for an administrator to accept your event!</h4>	
 		<div class="row">
-			<div class="col-xs-3 pin" ng-repeat="week in weeks">
-				<p><a ng-click="info(week)">{{ week.eventname }}</a></p>
-				<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
-				<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
-				<p>Hosted by: {{ week.orgname }}</p>
+			<div ng-repeat="week in weeks">
+				<a ng-click="info(week)">
+					<div class="col-sm-3 pin">
+						<p>{{ week.eventname }}</p>
+						<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
+						<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
+						<p>Hosted by: {{ week.orgname }}</p>
+					</div>
+				</a>
 			</div>
 		</div>
 		
@@ -43,11 +47,15 @@
 		<h4 class="nomonth">No events in the next month.</h4>
 			
 		<div class="row">
-			<div class="col-xs-3 pin" ng-repeat="month in months">
-				<p>{{ month.eventname }}</p>
-				<p>{{ month.start | date:'EEE, MMM dd, y' }}</p>
-				<p>{{ month.start | date:'shortTime' }} - {{ month.end | date:'shortTime' }} </p>
-				<p>Hosted by: {{ month.orgname }}</p>
+			<div ng-repeat="month in months">
+				<a ng-click="info(month)">
+					<div class="col-sm-3 pin">
+						<p>{{ month.eventname }}</p>
+						<p>{{ month.start | date:'EEE, MMM dd, y' }}</p>
+						<p>{{ month.start | date:'shortTime' }} - {{ month.end | date:'shortTime' }} </p>
+						<p>Hosted by: {{ month.orgname }}</p>
+					</div>
+				</a>
 			</div>
 		</div>
 			
@@ -55,11 +63,15 @@
 		<h2>Future Events</h2>
 		<h4 class="nofuture">No future events posted.</h4>
 		<div class="row">
-			<div class="col-xs-3 pin" ng-repeat="year in years">
-				<p>{{ year.eventname }}</p>
-				<p>{{ year.start | date:'EEE, MMM dd, y' }}</p>
-				<p>{{ year.start | date:'shortTime' }} - {{ year.end | date:'shortTime' }} </p>
-				<p>Hosted by: {{ year.orgname }}</p>
+			<div ng-repeat="year in years">
+				<a ng-click="info(year)">
+					<div class="col-sm-3 pin">
+						<p>{{ year.eventname }}</p>
+						<p>{{ year.start | date:'EEE, MMM dd, y' }}</p>
+						<p>{{ year.start | date:'shortTime' }} - {{ year.end | date:'shortTime' }} </p>
+						<p>Hosted by: {{ year.orgname }}</p>
+					</div>
+				</a>
 			</div>
 		</div>
 	</main>

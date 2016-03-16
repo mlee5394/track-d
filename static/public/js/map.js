@@ -29,8 +29,11 @@ function initMap() {
 				hour12: true
 			};
 			
+			var url = JSON.stringify(events);
+			url = encodeURIComponent(url);			
+			
 			var eventInfo = "<div class=\"info\">" +
-				"<h2>" + events.eventname + "</h2>" + 
+				"<a href=\"eventInfo.html?json=" + url + "\"><h2>" + events.eventname + "</h2></a>" + 
 				"<p>Starts: " + startTime.toLocaleDateString('en-US', options) + "<br />" +
 				"Ends: " + endTime.toLocaleDateString('en-US', options) + "<br />" +
 				events.loc + "<br />" +

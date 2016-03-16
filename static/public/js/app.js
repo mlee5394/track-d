@@ -92,12 +92,6 @@ function initAutocomplete() {
 }
 
 angular.module('Events', [])
-	.config(function($routeProvider) {
-		$routeProvider.when('/api/v1/event/:event?', {
-			controller: "ViewController",
-			templateUrl: '/views/eventInfo.html'
-		});
-	})
     .controller("SignInController", function($scope, $http) {
         'use strict';
         
@@ -155,12 +149,11 @@ angular.module('Events', [])
 
 		}
 	})
-	.controller('ViewController', function($scope, $http) {
+	.controller('ViewController', function($scope, $http, $location) {
     	'use strict';
 		
 		$scope.info = function(event) {
-			console.log(event);
-			$location.path("/eventInfo" + event);
+			window.location.href = "eventInfo.html?json=" + JSON.stringify(event);
 		}
 		
     	// Shows events in the next 7 days
@@ -189,4 +182,13 @@ angular.module('Events', [])
 				noFuture();
 			}
 		});
+	})
+	.controller('EventInfoController', function($scope, $http) {
+		'use strict';
+
+		var url = window.location.search.replace("?json=", "");
+		var decode = JSON.parse(decodeURIComponent(url));
+		console.log(decode);
+		
+		$scope.event = decode;
 	});
