@@ -21,9 +21,28 @@ body {
 	background-color: #E9EAEE;
 }
 
+h1 {
+	text-align: center;
+    font-family: EncodeSans;
+    color: #4B2E83;
+    display: inline-block;
+}
+
 h2 {
 	font-family: EncodeSansCompressed;
 	color: #4B2E83;
+}
+
+/*h4 {
+	font-size: 13pt;
+}*/
+
+.noevents, .nomonth, .nofuture {
+	text-align: center;
+	font-weight: bold;
+	font-size: 1em;
+	margin: 1em;
+	display: none;
 }
 
 nav {
@@ -84,28 +103,13 @@ button {
 	float: right;
 }
 
-h1 {
-	text-align: center;
-    font-family: EncodeSans;
-    color: #4B2E83;
-    display: inline-block;
-}
-
 .form-inline {
 	margin-bottom: 1em;
 }
 
-.noevents, .nomonth, .nofuture {
-	text-align: center;
-	font-weight: bold;
-	font-size: 1.5em;
-	margin: 1em;
-	display: none;
-}
-
 .pin {
 	display: inline-block;
-	border: 2px solid #5C2965;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
 	margin: 0 2px 15px;
 	-webkit-column-break-inside: avoid;
 	-moz-column-break-inside: avoid;
@@ -186,12 +190,12 @@ div.blocktext {
 }
 
 .mapview {
-	margin: 1em;
-	width: 300px;
-	height: 390px;
+	height: 91vh;
+	margin-top: 56px;
 }
 
 #map {
+	/*top: 56px;*/
     height: 100%;
     width: 100%;
 }
@@ -200,7 +204,21 @@ div.blocktext {
 	text-align: center;
 }
 
+.info>h2 {
+	font-size: 15px;
+	font-family: OpenSans;
+}
+
 @media(min-width: 550px) {
+	
+	.noevents, .nomonth, .nofuture {
+		text-align: center;
+		font-weight: bold;
+		font-size: 1.3em;
+		margin: 1em;
+		display: none;
+	}
+	
 	.block {
 		display: block;
 		margin: 0 auto;
@@ -218,19 +236,7 @@ div.blocktext {
     	height: 300px;
 	}
 	
-	.mapview {
-		width: 550px;
-		height: 500px;
-	}
-	
 	main {
 		margin: 5em;
-	}
-}
-
-@media(min-width: 750px) {
-	.mapview {
-		width: 700px;
-		height: 600px;
 	}
 }

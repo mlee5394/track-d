@@ -80,11 +80,11 @@ angular.module('Dashboard', [])
 			}
 		})
 	}).controller('ViewController', function($scope, $http) {
-		'use strict';
+    	'use strict';
 		
-		// Shows events in the next 7 days
+    	// Shows events in the next 7 days
 		$http.get('/api/v1/events7').then(function(week) {
-			$scope.weeks = week.data;
+      		$scope.weeks = week.data;
 		}).catch(function(reason) {
 			if (reason.status == '401') {
 				showNoEvent();
@@ -99,7 +99,7 @@ angular.module('Dashboard', [])
 				noMonth();
 			}
 		});
-    
+		
 		// Shows events in the next year
 		$http.get('/api/v1/allevents').then(function(all) {
 			$scope.year = all.data;

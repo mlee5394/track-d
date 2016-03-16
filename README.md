@@ -2,10 +2,15 @@
 
 uw.edu/brand
 
-map view
-enable images
-enable clicking for more information
+# Map View
+-- Link to more event information
 
-contact information into the form
+# Home Events All View
+-- Make Prettier
+-- Include Images
+-- Create Link to show all information
 
-can create event if location is different
+# Form
+-- Enable Images
+-- Default Image for not uploaded images
+-- Possibly contact information?

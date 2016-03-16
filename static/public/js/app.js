@@ -28,63 +28,76 @@ function noFuture() {
 }
 
 var placeName = "";
+var latlng = {};
 
 function initAutocomplete() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 47.653662, lng: -122.304220},
-    zoom: 15,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
+	var map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat: 47.653662, lng: -122.304220},
+		zoom: 15,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
 
-  // Create the search box and link it to the UI element.
-  var input = document.getElementById('loc');
-  var searchBox = new google.maps.places.SearchBox(input);
+	// Create the search box and link it to the UI element.
+	var input = document.getElementById('loc');
+	var searchBox = new google.maps.places.SearchBox(input);
 
-  // Bias the SearchBox results towards current map's viewport.
-  map.addListener('bounds_changed', function() {
-    searchBox.setBounds(map.getBounds());
-  });
+	// Bias the SearchBox results towards current map's viewport.
+	map.addListener('bounds_changed', function() {
+		searchBox.setBounds(map.getBounds());
+	});
 
-  var markers = [];
-  // Listen for the event fired when the user selects a prediction and retrieve
-  // more details for that place.
-  searchBox.addListener('places_changed', function() {
-    var places = searchBox.getPlaces();
-    placeName = places[0].formatted_address;
+	var markers = [];
+	// Listen for the event fired when the user selects a prediction and retrieve
+	// more details for that place.
+	searchBox.addListener('places_changed', function() {
+		var places = searchBox.getPlaces();
+		placeName = places[0].formatted_address;
     
-    if (places.length == 0) {
-      return;
-    }
+		if (places.length == 0) {
+			return;
+		}
 
-    // Clear out the old markers.
-    markers.forEach(function(marker) {
-      marker.setMap(null);
-    });
-    markers = [];
+		// Clear out the old markers.
+		markers.forEach(function(marker) {
+			marker.setMap(null);
+		});
+		markers = [];
 
-    // For each place, get the icon, name and location.
-    var bounds = new google.maps.LatLngBounds();
-    places.forEach(function(place) {
-
-      // Create a marker for each place.
-      markers.push(new google.maps.Marker({
-        map: map,
-        title: place.name,
-        position: place.geometry.location
-      }));
-
-      if (place.geometry.viewport) {
-        // Only geocodes have viewport.
-        bounds.union(place.geometry.viewport);
-      } else {
-        bounds.extend(place.geometry.location);
-      }
-    });
-    map.fitBounds(bounds);
-  });
+		// For each place, get the icon, name and location.
+		var bounds = new google.maps.LatLngBounds();
+		places.forEach(function(place) {
+			// Create a marker for each place.
+			markers.push(new google.maps.Marker({
+				map: map,
+				title: place.name,
+				position: place.geometry.location
+			}));
+			
+			latlng = {
+				lat: place.geometry.location.lat(),
+				lng: place.geometry.location.lng()
+			}
+			// "{" + place.geometry.location.lat() + ", " + place.geometry.location.lng() + "}";
+	
+			if (place.geometry.viewport) {
+				// Only geocodes have viewport.
+				bounds.union(place.geometry.viewport);
+			} else {
+				bounds.extend(place.geometry.location);
+			}
+		});
+		
+		map.fitBounds(bounds);
+	});
 }
 
 angular.module('Events', [])
+	.config(function($routeProvider) {
+		$routeProvider.when('/api/v1/event/:event?', {
+			controller: "ViewController",
+			templateUrl: '/views/eventInfo.html'
+		});
+	})
     .controller("SignInController", function($scope, $http) {
         'use strict';
         
@@ -109,7 +122,6 @@ angular.module('Events', [])
 		'use strict';
         
 		$scope.save = function() {
-            // console.log(placeName);
             
 			var event = {
 				eventname: $scope.eventname,
@@ -118,9 +130,11 @@ angular.module('Events', [])
 				start: $scope.start,
 				end: $scope.end,
 				loc: placeName,
+				latlng: latlng,
 				room: $scope.room,
 				description: $scope.description
 			}
+			
 			var today = new Date();
 			if (Date.parse(today) > Date.parse(event.start)) {
 				console.log("Start date cannot happen before today's date");
@@ -142,36 +156,37 @@ angular.module('Events', [])
 		}
 	})
 	.controller('ViewController', function($scope, $http) {
-    'use strict';
+    	'use strict';
 		
-    // Shows events in the next 7 days
+		$scope.info = function(event) {
+			console.log(event);
+			$location.path("/eventInfo" + event);
+		}
+		
+    	// Shows events in the next 7 days
 		$http.get('/api/v1/events7').then(function(week) {
-      $scope.weeks = week.data;
+      		$scope.weeks = week.data;
 		}).catch(function(reason) {
-        if (reason.status == '401') {
-          showNoEvent();
-        }
+			if (reason.status == '401') {
+				showNoEvent();
+			}
 		});
     
-    // Shows events in the next 31 days
-    $http.get('/api/v1/events31').then(function(month) {
-      $scope.months = month.data;
-    }).catch(function(reason) {
-      if (reason.status == '401') {
-        noMonth();
-      }
-    });
-    
-    // Shows events in the next year
-    $http.get('/api/v1/allevents').then(function(all) {
-      $scope.year = all.data;
-    }).catch(function(reason) {
-      if (reason.status == '401') {
-        noFuture();
-      }
-    });
-    
-    
-	}).controller("MapController", function($scope, $http) {
+		// Shows events in the next 31 days
+		$http.get('/api/v1/events31').then(function(month) {
+			$scope.months = month.data;
+		}).catch(function(reason) {
+			if (reason.status == '401') {
+				noMonth();
+			}
+		});
 		
+		// Shows events in the next year
+		$http.get('/api/v1/allevents').then(function(all) {
+			$scope.years = all.data;
+		}).catch(function(reason) {
+			if (reason.status == '401') {
+				noFuture();
+			}
+		});
 	});

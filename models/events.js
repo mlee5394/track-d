@@ -10,6 +10,7 @@ var eventsSchema = new mongoose.Schema({
 	start: String,
 	end: String,
 	loc: String,
+	latlng: Object,
 	room: String,
 	description: String,
     approved: Boolean

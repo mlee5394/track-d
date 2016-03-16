@@ -16,7 +16,7 @@ var Admin = require('./models/admin.js');
 // password used to hash the session IDs
 // Terminal: 
 // uuidgen
-// export COOKIE_SIG_SECRET="05e8c46b-d0f8-4208-b0ac-fc2944150052"
+// export COOKIE_SIG_SECRET=uuidgen
 var cookieSigSecret = process.env.COOKIE_SIG_SECRET;
 if (!cookieSigSecret) {
 	console.error('Please set COOKIE_SIG_SECRET');
@@ -64,7 +64,7 @@ mongoose.connection.on('error', function(err) {
 // Posts a new event
 app.post('/newevent', function(req, res) {
     Events.find({ 'orgname': req.body.orgname }, function(err, org) {
-        if (err) { return done(err); }
+        if (err) { return err; }
         var newEvent = new Events({
             eventname: req.body.eventname,
             fblink: req.body.link,
@@ -72,6 +72,7 @@ app.post('/newevent', function(req, res) {
             start: moment.tz(Date.parse(req.body.start), "America/Los_Angeles").format(),
             end: moment.tz(Date.parse(req.body.end), "America/Los_Angeles").format(),
             loc: req.body.loc,
+            latlng: req.body.latlng,
             room: req.body.room,
             description: req.body.description,
             approved: false
@@ -80,7 +81,7 @@ app.post('/newevent', function(req, res) {
         if (org.length == 0) {
             console.log("Organization doesn't exist, curently adding organization and event to database");            
             newEvent.save(function(err) {
-                if (err) { return done(err); }
+                if (err) { return res.status(500).json({ message: "Internal Server Error" }); }
                 return res.status(200).json({ message: "New event successfully created" });
             });
         } else {
@@ -102,29 +103,6 @@ app.post('/newevent', function(req, res) {
     });
 });
 
-// Shows approved events
-// app.get('/api/v1/eventslist', function(req, res) {
-//     Events.find(function(err, events) {
-//         if (events.length == 0 || err) {
-//             console.log("No Current Events");
-//             res.status(400).json({ message: "No Current Events." });
-//         } else {
-//             // res.json(events);
-//             var eventslist = [];
-//             for (var i = 0; i < events.length; i++) {
-//                 if (events[i].approved) {
-//                     eventslist.push(events[i]);
-//                 }
-//             }
-//             if (eventslist.length == 0) {
-//                 res.status(401).json({ message: "No events have been approved yet." });
-//             } else {
-//                 res.json(eventslist);
-//             }
-//         }
-//     });
-// });
-
 // Events for the next 7 days
 app.get('/api/v1/events7', function(req, res) {
     var today = new Date();
@@ -140,8 +118,9 @@ app.get('/api/v1/events7', function(req, res) {
             for (var i = 0; i < events.length; i++) {
                 if (events[i].approved) {
                     var start = new Date(events[i].start);
+                    var end = new Date(events[i].end);
                     
-                    if (start >= today && start < week) {
+                    if (start <= week && (start >= today || today <= end)) {
                         eventslist.push(events[i]);
                     }
                 }
@@ -215,6 +194,37 @@ app.get('/api/v1/allevents', function(req, res) {
     });
 });
 
+// Events for the next month (31) days
+app.get('/api/v1/events/map31', function(req, res) {
+    var today = new Date();
+    var month = new Date();
+    month.setDate(month.getDate() + 31);
+    
+    Events.find(function(err, events) {
+        if (events.length == 0 || err) {
+            console.log("No Current Events");
+            res.status(400).json({ message: "No Current Events." });
+        } else {
+            var eventslist = [];
+            for (var i = 0; i < events.length; i++) {
+                if (events[i].approved) {
+                    var start = new Date(events[i].start);
+                    var end = new Date(events[i].end);
+                    
+                    if (start <= month && (start >= today || today <= end)) {
+                        eventslist.push(events[i]);
+                    }
+                }
+            }
+            if (eventslist.length == 0) {
+                res.status(401).json({ message: "No events have been approved yet." });
+            } else {
+                res.json(eventslist);
+            }
+        }
+    });
+});
+
 require('./controllers/passport.js');
 
 // Locates to Sign the Admin in
@@ -222,7 +232,7 @@ app.post('/secure/signin', passport.authenticate('local-signin'),
     function(req, res) { return res.json(req.user); }
 );
 
-// Checks to see if use hard-coded the url and if they're logged in or not
+// Checks if Admins are signed in
 app.use(function(req, res, next) {
     if (!req.isAuthenticated()) {
         res.redirect('/index.html');
@@ -283,8 +293,8 @@ app.get('/api/v1/admin/approve/approved', function(req, res) {
         } else {
             var eventslist = [];
             for (var i = 0; i < events.length; i++) {
-                var start = new Date(events[i].start);
-                if (events[i].approved && start >= today) {
+                var end = new Date(events[i].end);
+                if (events[i].approved && end >= today) {
                     eventslist.push(events[i]);
                 }
             }

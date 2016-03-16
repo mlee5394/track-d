@@ -16,9 +16,8 @@
 	<nav>
 		<ul>
 			<li><a href="index.html"><img id="navlogo" src="img/logo_white.png"></a></li>
-			<li><a href="index.html">Events</a></li>
 			<li><a href="mapview.html">View on a Map</a></li>
-			<li><a href="event.html">Post an Event</a></li>
+			<li><a href="addEvent.html">Post an Event</a></li>
 			<li><a href="about.html">About</a></li>
 		</ul>
 	</nav>
@@ -29,25 +28,22 @@
             <img class="bar" src="img/bar.png">
         </div>
 		
-		<p class="noevents">No Current Events. If you recently submitted, wait for an administrator to accept your event!</p>
 		<h2>In the next week</h2>
-		
-		<!--<div class="container">-->
-			<div class="row">
-				<div class="col-xs-4 pin" ng-repeat="week in weeks">
-					<p>{{ week.eventname }}</p>
-					<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
-					<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
-					<p>Hosted by: {{ week.orgname }}</p>
-				</div>
+		<h4 class="noevents">No Current Events. If you recently submitted, wait for an administrator to accept your event!</h4>	
+		<div class="row">
+			<div class="col-xs-3 pin" ng-repeat="week in weeks">
+				<p><a ng-click="info(week)">{{ week.eventname }}</a></p>
+				<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
+				<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
+				<p>Hosted by: {{ week.orgname }}</p>
 			</div>
-		<!--</div>-->
+		</div>
 		
 		<h2>Upcoming Month</h2>
-		<p class="nomonth">No events in the next month.</p>
+		<h4 class="nomonth">No events in the next month.</h4>
 			
 		<div class="row">
-			<div class="col-xs-4 pin" ng-repeat="month in months">
+			<div class="col-xs-3 pin" ng-repeat="month in months">
 				<p>{{ month.eventname }}</p>
 				<p>{{ month.start | date:'EEE, MMM dd, y' }}</p>
 				<p>{{ month.start | date:'shortTime' }} - {{ month.end | date:'shortTime' }} </p>
@@ -57,22 +53,15 @@
 			
 			
 		<h2>Future Events</h2>
-		<p class="nofuture">No future events posted.</p>
+		<h4 class="nofuture">No future events posted.</h4>
 		<div class="row">
-			<div class="col-xs-4 pin" ng-repeat="year in years">
-				<p>{{ week.eventname }}</p>
-				<p>{{ week.start | date:'EEE, MMM dd, y' }}</p>
-				<p>{{ week.start | date:'shortTime' }} - {{ week.end | date:'shortTime' }} </p>
-				<p>Hosted by: {{ week.orgname }}</p>
+			<div class="col-xs-3 pin" ng-repeat="year in years">
+				<p>{{ year.eventname }}</p>
+				<p>{{ year.start | date:'EEE, MMM dd, y' }}</p>
+				<p>{{ year.start | date:'shortTime' }} - {{ year.end | date:'shortTime' }} </p>
+				<p>Hosted by: {{ year.orgname }}</p>
 			</div>
 		</div>
-		
-		<!--<div class="pin" ng-repeat="event in events">
-			<p>{{ event.eventname }}</p>
-			<p>{{ event.start | date:'EEE, MMM dd, y' }}</p>
-			<p>{{ event.start | date:'shortTime' }} - {{ event.end | date:'shortTime' }} </p>
-			<p>Hosted by: {{ event.orgname }}</p>
-		</div>-->
 	</main>
 
 	

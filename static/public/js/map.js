@@ -1,6 +1,7 @@
 'use strict';
 
-var infowindow;
+var markers = [];
+// var infowindow;
 
 function initMap() {
 	var map = new google.maps.Map(document.getElementById("map"), {
@@ -9,48 +10,69 @@ function initMap() {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	});
 	
-	var geocoder = new google.maps.Geocoder();
-	// var markers = new Array();
-	infowindow = new google.maps.InfoWindow();
-	$.get('/api/v1/events31').then(function(events) {
-		
-		// // Clears map initially of markers
-		// markers.forEach(function(marker) {
-		// 	marker.setMap(null);
-		// });
-		// markers = [];
+	var infowindow = new google.maps.InfoWindow();
+	
+	$.get('/api/v1/events/map31').then(function(events) {
 		
 		// Loops through event data to plot onto Map
 		events.forEach(function(events) {
-			console.log(events.loc);
 			
-			// Turns address into LatLng Coordinates
-			geocoder.geocode({'address': events.loc}, function(results, status) {
-				if (status === google.maps.GeocoderStatus.OK) {
-					var lat = results[0].geometry.location.lat();
-					var lng = results[0].geometry.location.lng();
-					// createMarker(events, lat, lng);
-					var marker = new google.maps.Marker({
-						position: new google.maps.LatLng(lat, lng),
-						map: map
-					});
-				} else {
-					alert("Geocode was not successful for the following reason: " + status);
+			var startTime = new Date(events.start);
+			var endTime = new Date(events.end);
+			var options = { 
+				weekday: 'long', 
+				year: 'numeric', 
+				month: 'long', 
+				day: 'numeric', 
+				hour: 'numeric', 
+				minute: 'numeric', 
+				hour12: true
+			};
+			
+			var eventInfo = "<div class=\"info\">" +
+				"<h2>" + events.eventname + "</h2>" + 
+				"<p>Starts: " + startTime.toLocaleDateString('en-US', options) + "<br />" +
+				"Ends: " + endTime.toLocaleDateString('en-US', options) + "<br />" +
+				events.loc + "<br />" +
+				"Hosted By: " + events.orgname +
+				"</p>" + "</div>";
+			
+			var marker = (new google.maps.Marker({
+				position: events.latlng,
+				map: map,
+				animation: google.maps.Animation.DROP
+			}));
+			
+			infowindow = new google.maps.InfoWindow({ 
+				content: eventInfo,
+				maxWidth: 320
+			});
+			
+			if (locExists(marker, eventInfo)) {				
+				for (var i = 0; i < markers.length; i++) {
+					if (markers[i].marker.position.lat() == marker.position.lat() && markers[i].marker.position.lng() == marker.position.lng()) {
+						markers[i].infowindow.content += eventInfo;
+						eventInfo = markers[i].infowindow.content;
+					}
 				}
+			} else {
+				markers.push({ marker: marker, infowindow: infowindow });
+			}
+			
+			marker.addListener('click', function() {
+				infowindow.close();
+				infowindow.setContent(eventInfo);
+				infowindow.open(map, marker);
 			});
 		});
 	});
 }
 
-function createMarker(events, lat, lng) {
-	var marker = new google.maps.Marker({
-		position: new google.maps.LatLng(lat, lng),
-		map: map
-	});
-	
-	google.maps.event.addListener(marker, 'click', function() {
-		console.log("Hello");
-		// infowindow.setContent(events.loc);
-		// infowindow.open(map, marker);
-	});
+function locExists(event, eventInfo) {
+	for (var i = 0; i < markers.length; i++) {
+		if (markers[i].marker.position.lat() == event.position.lat() && markers[i].marker.position.lng() == event.position.lng()) {
+			return true;
+		}
+	}
+	return false;
 }
